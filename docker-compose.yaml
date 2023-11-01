@@ -1,0 +1,21 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:8.2.0
+    container_name: labapi.mysql
+    environment:
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: labapi
+    ports:
+      - "3306:3306"
+    volumes:
+      - /path/to/mysql/data:/var/lib/mysql
+  flyway:
+    image: boxfuse/flyway
+    container_name: labapi.flyway
+    command: ["-url=jdbc:mysql://mysql:3306/labapi", "-user=root", "-password=root", "migrate"]
+    depends_on:
+      - mysql
+    volumes:
+      - /path/to/flyway/migrations:/flyway/sql
