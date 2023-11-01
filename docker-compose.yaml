@@ -14,8 +14,8 @@ services:
   flyway:
     image: boxfuse/flyway
     container_name: labapi.flyway
-    command: ["-url=jdbc:mysql://mysql:3306/labapi", "-user=root", "-password=root", "migrate"]
+    command: ["-url=jdbc:mysql://mysql", "-schemas=lab_api", "-user=root", "-password=root", "-connectRetries=120" ,"migrate"]
     depends_on:
       - mysql
     volumes:
-      - /path/to/flyway/migrations:/flyway/sql
+      - ./src/main/resources/db/migration:/flyway/sql

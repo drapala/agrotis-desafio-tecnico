@@ -48,6 +48,6 @@ public class PersonEntity {
     @JoinColumn(name = "ìd_laboratory")
     private LaboratoryEntity laboratory;
 
-    @Column(name = "observation", nullable = false)
+    @Column(name = "observation")
     private String observation;
 }
