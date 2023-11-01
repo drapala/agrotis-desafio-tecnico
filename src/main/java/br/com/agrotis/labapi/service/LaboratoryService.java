@@ -49,6 +49,8 @@ public class LaboratoryService {
     }
 
     public LaboratoryDTO updateLaboratory(LaboratoryRequest request) {
+
+        // TODO -> Criar exception para parâmetro faltante
         if (request.getId().isEmpty()) {
             throw new LaboratoryNotFoundException("Id not provided");
         }

@@ -2,11 +2,11 @@ package br.com.agrotis.labapi.exception;
 
 public class LaboratoryAlreadyExistsException extends RuntimeException {
 
-    public LaboratoryAlreadyExistsException(){
+    public LaboratoryAlreadyExistsException() {
         super();
     }
 
-    public LaboratoryAlreadyExistsException(String message){
+    public LaboratoryAlreadyExistsException(String message) {
         super(message);
     }
 }

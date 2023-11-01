@@ -4,8 +4,8 @@ services:
     image: mysql:8.2.0
     container_name: labapi.mysql
     environment:
-      MYSQL_USER: root
       MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: root
       MYSQL_DATABASE: labapi
     ports:
       - "3306:3306"
@@ -14,7 +14,7 @@ services:
   flyway:
     image: boxfuse/flyway
     container_name: labapi.flyway
-    command: ["-url=jdbc:mysql://mysql", "-schemas=lab_api", "-user=root", "-password=root", "-connectRetries=120" ,"migrate"]
+    command: ["-url=jdbc:mysql://mysql", "-schemas=labapi", "-user=root", "-password=root", "-connectRetries=120" ,"migrate"]
     depends_on:
       - mysql
     volumes:
