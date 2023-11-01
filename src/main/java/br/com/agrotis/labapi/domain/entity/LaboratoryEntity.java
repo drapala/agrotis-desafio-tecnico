@@ -8,7 +8,6 @@ import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -23,7 +22,6 @@ import static javax.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @Table(name = "laboratory")
 @Entity(name = "Laboratory")
-@ToString(exclude = {"id"})
 public class LaboratoryEntity {
 
     @Id
@@ -34,6 +32,6 @@ public class LaboratoryEntity {
     @Column(name = "name_laboratory", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "laboratory", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "laboratory")
     private List<PersonEntity> persons;
 }

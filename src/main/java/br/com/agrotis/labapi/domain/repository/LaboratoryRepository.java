@@ -4,4 +4,7 @@ import br.com.agrotis.labapi.domain.entity.LaboratoryEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LaboratoryRepository extends JpaRepository<LaboratoryEntity, Long> {
+
+    LaboratoryEntity findByName(String laboratoryName);
+
 }

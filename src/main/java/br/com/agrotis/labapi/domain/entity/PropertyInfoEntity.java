@@ -34,6 +34,6 @@ public class PropertyInfoEntity {
     @Column(name = "name_property_info", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "propertyInfo", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "propertyInfo")
     private List<PersonEntity> persons;
 }
