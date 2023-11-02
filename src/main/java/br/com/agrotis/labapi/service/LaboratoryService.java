@@ -26,7 +26,7 @@ public class LaboratoryService {
         Optional<LaboratoryEntity> laboratoryEntity = laboratoryRepository.findById(id);
 
         if (laboratoryEntity.isEmpty()) {
-            throw new LaboratoryNotFoundException("Laboratory not found in database");
+            throw new LaboratoryNotFoundException();
         }
 
         LaboratoryEntity laboratory = laboratoryEntity.get();
@@ -41,7 +41,7 @@ public class LaboratoryService {
         Optional<LaboratoryEntity> laboratoryEntity = Optional.ofNullable(laboratoryRepository.findByName(laboratoryName));
 
         laboratoryEntity.ifPresent(laboratory -> {
-            throw new LaboratoryAlreadyExistsException("Already exists laboratory with this name");
+            throw new LaboratoryAlreadyExistsException();
         });
 
         LaboratoryEntity savedLaboratory = laboratoryRepository.save(LaboratoryEntity.builder().name(laboratoryName).build());
@@ -52,7 +52,7 @@ public class LaboratoryService {
         Optional<LaboratoryEntity> laboratoryEntity = laboratoryRepository.findById(request.getId());
 
         if (laboratoryEntity.isEmpty()) {
-            throw new LaboratoryNotFoundException("Laboratory not found in database");
+            throw new LaboratoryNotFoundException();
         }
 
         laboratoryEntity.get().setName(request.getName());
@@ -64,7 +64,7 @@ public class LaboratoryService {
         Optional<LaboratoryEntity> laboratoryEntity = laboratoryRepository.findById(id);
 
         if (laboratoryEntity.isEmpty()) {
-            throw new LaboratoryNotFoundException("Laboratory not found in database");
+            throw new LaboratoryNotFoundException();
         }
 
         laboratoryRepository.delete(laboratoryEntity.get());

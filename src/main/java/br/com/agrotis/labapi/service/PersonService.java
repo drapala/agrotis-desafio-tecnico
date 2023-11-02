@@ -7,6 +7,7 @@ import br.com.agrotis.labapi.domain.repository.LaboratoryRepository;
 import br.com.agrotis.labapi.domain.repository.PersonRepository;
 import br.com.agrotis.labapi.domain.repository.PropertyInfoRepository;
 import br.com.agrotis.labapi.dto.PersonDTO;
+import br.com.agrotis.labapi.exception.LaboratoryNotFoundException;
 import br.com.agrotis.labapi.exception.PersonAlreadyExistsException;
 import br.com.agrotis.labapi.exception.PersonNotFoundException;
 import br.com.agrotis.labapi.exception.PropertyInfoNotFoundException;
@@ -35,7 +36,7 @@ public class PersonService {
         Optional<PersonEntity> personEntity = personRepository.findById(id);
 
         if (personEntity.isEmpty()) {
-            throw new PropertyInfoNotFoundException("Person not found in database");
+            throw new PropertyInfoNotFoundException();
         }
 
         PersonEntity personInfo = personEntity.get();
@@ -47,18 +48,19 @@ public class PersonService {
     }
 
     public PersonDTO addPerson(PersonRequest personRequest) {
-        Optional<LaboratoryEntity> laboratory = laboratoryRepository.findById(personRequest.getLaboratory().getId());
-        Optional<PropertyInfoEntity> propertyInfo = propertyInfoRepository.findById(personRequest.getPropertyInfo().getId());
+        LaboratoryEntity laboratory = laboratoryRepository
+                .findById(personRequest.getLaboratory().getId())
+                .orElseThrow(LaboratoryNotFoundException::new);
 
-        PersonEntity personEntity = new PersonEntity();
-        personEntity.setName(personRequest.getName());
-        personEntity.setInitialDate(personRequest.getInitialDate());
-        personEntity.setFinalDate(personRequest.getFinalDate());
-        personEntity.setPropertyInfo(propertyInfo.get());
-        personEntity.setLaboratory(laboratory.get());
-        personEntity.setObservation(personRequest.getObservation());
+        PropertyInfoEntity propertyInfo = propertyInfoRepository
+                .findById(personRequest.getPropertyInfo().getId())
+                .orElseThrow(PropertyInfoNotFoundException::new);
+
+        PersonEntity personEntity = personMapper.toEntity(personRequest);
+        personEntity.setLaboratory(laboratory);
+        personEntity.setPropertyInfo(propertyInfo);
+
         PersonEntity savedPerson = personRepository.save(personEntity);
-
         return personMapper.toDTO(savedPerson);
     }
 
@@ -66,7 +68,7 @@ public class PersonService {
         Optional<PersonEntity> personEntity = personRepository.findById(id);
 
         if (personEntity.isEmpty()) {
-            throw new PersonNotFoundException("Person not found in database");
+            throw new PersonNotFoundException();
         }
 
         personEntity.get().setName(personRequest.getName());
@@ -78,7 +80,7 @@ public class PersonService {
         Optional<PersonEntity> personEntity = personRepository.findById(id);
 
         if (personEntity.isEmpty()) {
-            throw new PersonNotFoundException("Person not found in database");
+            throw new PersonNotFoundException();
         }
 
         personRepository.delete(personEntity.get());

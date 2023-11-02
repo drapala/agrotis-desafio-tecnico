@@ -1,9 +1,9 @@
 package br.com.agrotis.labapi.exception;
 
-public class PersonNotFoundException extends RuntimeException {
+public class PersonNotFoundException extends GenericException {
 
     public PersonNotFoundException() {
-        super();
+        super("Person not found.", 404);
     }
 
     public PersonNotFoundException(String message) {

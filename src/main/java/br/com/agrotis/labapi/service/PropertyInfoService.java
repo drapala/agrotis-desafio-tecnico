@@ -26,7 +26,7 @@ public class PropertyInfoService {
         Optional<PropertyInfoEntity> propertyInfoEntity = propertyInfoRepository.findById(id);
 
         if (propertyInfoEntity.isEmpty()) {
-            throw new PropertyInfoNotFoundException("Property info not found in database");
+            throw new PropertyInfoNotFoundException();
         }
 
         PropertyInfoEntity propertyInfo = propertyInfoEntity.get();
@@ -41,7 +41,7 @@ public class PropertyInfoService {
         Optional<PropertyInfoEntity> propertyInfoEntity = Optional.ofNullable(propertyInfoRepository.findByName(propertyName));
 
         propertyInfoEntity.ifPresent(propertyInfo -> {
-            throw new PropertyInfoAlreadyExistsException("Already exists PropertyInfo with this name");
+            throw new PropertyInfoAlreadyExistsException();
         });
 
         PropertyInfoEntity savedPropertyInfo = propertyInfoRepository.save(PropertyInfoEntity.builder().name(propertyName).build());
@@ -52,7 +52,7 @@ public class PropertyInfoService {
         Optional<PropertyInfoEntity> propertyInfoEntity = propertyInfoRepository.findById(request.getId());
 
         if (propertyInfoEntity.isEmpty()) {
-            throw new PropertyInfoNotFoundException("PropertyInfo not found in database");
+            throw new PropertyInfoNotFoundException();
         }
 
         propertyInfoEntity.get().setName(request.getName());
@@ -64,7 +64,7 @@ public class PropertyInfoService {
         Optional<PropertyInfoEntity> propertyInfoEntity = propertyInfoRepository.findById(id);
 
         if (propertyInfoEntity.isEmpty()) {
-            throw new PropertyInfoNotFoundException("PropertyInfo not found in database");
+            throw new PropertyInfoNotFoundException();
         }
 
         propertyInfoRepository.delete(propertyInfoEntity.get());

@@ -1,9 +1,9 @@
 package br.com.agrotis.labapi.exception;
 
-public class LaboratoryNotFoundException extends RuntimeException {
+public class LaboratoryNotFoundException extends GenericException {
 
     public LaboratoryNotFoundException() {
-        super();
+        super("Laboratory not found.", 404);
     }
 
     public LaboratoryNotFoundException(String message) {

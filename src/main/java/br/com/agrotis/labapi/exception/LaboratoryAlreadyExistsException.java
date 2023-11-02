@@ -1,9 +1,9 @@
 package br.com.agrotis.labapi.exception;
 
-public class LaboratoryAlreadyExistsException extends RuntimeException {
+public class LaboratoryAlreadyExistsException extends GenericException {
 
     public LaboratoryAlreadyExistsException() {
-        super();
+        super("Laboratory already exists.", 409);
     }
 
     public LaboratoryAlreadyExistsException(String message) {
