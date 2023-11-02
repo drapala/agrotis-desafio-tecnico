@@ -8,7 +8,6 @@ import br.com.agrotis.labapi.domain.repository.PersonRepository;
 import br.com.agrotis.labapi.domain.repository.PropertyInfoRepository;
 import br.com.agrotis.labapi.dto.PersonDTO;
 import br.com.agrotis.labapi.exception.LaboratoryNotFoundException;
-import br.com.agrotis.labapi.exception.PersonAlreadyExistsException;
 import br.com.agrotis.labapi.exception.PersonNotFoundException;
 import br.com.agrotis.labapi.exception.PropertyInfoNotFoundException;
 import br.com.agrotis.labapi.mapper.PersonMapper;
@@ -16,6 +15,7 @@ import br.com.agrotis.labapi.web.request.PersonRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -44,7 +44,10 @@ public class PersonService {
     }
 
     public List<PersonDTO> retrieveAllPeople() {
-        return personRepository.findAll().stream().map(personMapper::toDTO).collect(Collectors.toList());
+        return personRepository.findAll()
+                .stream()
+                .map(personMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     public PersonDTO addPerson(PersonRequest personRequest) {
@@ -84,5 +87,26 @@ public class PersonService {
         }
 
         personRepository.delete(personEntity.get());
+    }
+
+    public List<PersonDTO> retrievePeopleByInitialDateRange(Instant startDate, Instant endDate) {
+        return personRepository.findByInitialDateBetween(startDate, endDate)
+                .stream()
+                .map(personMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<PersonDTO> retrievePeopleByFinalDateRange(Instant startDate, Instant endDate) {
+        return personRepository.findByFinalDateBetween(startDate, endDate)
+                .stream()
+                .map(personMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<PersonDTO> retrievePeopleByObservation(String observation) {
+        return personRepository.findByObservation(observation)
+                .stream()
+                .map(personMapper::toDTO)
+                .collect(Collectors.toList());
     }
 }

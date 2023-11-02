@@ -7,7 +7,9 @@ import br.com.agrotis.labapi.web.request.propertyInfo.PropertyInfoCreateRequest;
 import br.com.agrotis.labapi.web.request.propertyInfo.PropertyInfoUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 

@@ -3,7 +3,7 @@ package br.com.agrotis.labapi.exception;
 import lombok.Getter;
 
 @Getter
-public class GenericException extends RuntimeException {
+public abstract class GenericException extends RuntimeException {
 
     private int statusCode;
 
