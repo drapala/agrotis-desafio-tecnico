@@ -1,20 +1,16 @@
 package br.com.agrotis.labapi.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.Instant;
 
+import static javax.persistence.GenerationType.AUTO;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Data
@@ -40,12 +36,14 @@ public class PersonEntity {
     @Column(name = "final_date", nullable = false)
     private Instant finalDate;
 
-    @ManyToOne
+
+    @ManyToOne(optional = false)
     @JoinColumn(name = "id_property_info")
     private PropertyInfoEntity propertyInfo;
 
-    @ManyToOne
-    @JoinColumn(name = "ìd_laboratory")
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "id_laboratory")
     private LaboratoryEntity laboratory;
 
     @Column(name = "observation")

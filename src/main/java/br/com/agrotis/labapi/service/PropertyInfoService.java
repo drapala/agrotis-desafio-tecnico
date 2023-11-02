@@ -6,7 +6,7 @@ import br.com.agrotis.labapi.dto.PropertyInfoDTO;
 import br.com.agrotis.labapi.exception.PropertyInfoAlreadyExistsException;
 import br.com.agrotis.labapi.exception.PropertyInfoNotFoundException;
 import br.com.agrotis.labapi.mapper.PropertyInfoMapper;
-import br.com.agrotis.labapi.web.request.PropertyInfoRequest;
+import br.com.agrotis.labapi.web.request.propertyInfo.PropertyInfoUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -48,19 +48,14 @@ public class PropertyInfoService {
         return propertyInfoMapper.toDTO(savedPropertyInfo);
     }
 
-    public PropertyInfoDTO updatePropertyInfo(PropertyInfoRequest request) {
-        // TODO -> Criar exception para parâmetro faltante
-        if (request.getId().isEmpty()) {
-            throw new PropertyInfoNotFoundException("Id not provided");
-        }
-
-        Optional<PropertyInfoEntity> propertyInfoEntity = propertyInfoRepository.findById(request.getId().get());
+    public PropertyInfoDTO updatePropertyInfo(PropertyInfoUpdateRequest request) {
+        Optional<PropertyInfoEntity> propertyInfoEntity = propertyInfoRepository.findById(request.getId());
 
         if (propertyInfoEntity.isEmpty()) {
             throw new PropertyInfoNotFoundException("PropertyInfo not found in database");
         }
 
-        propertyInfoEntity.get().setName(request.getPropertyInfoName());
+        propertyInfoEntity.get().setName(request.getName());
 
         return propertyInfoMapper.toDTO(propertyInfoRepository.save(propertyInfoEntity.get()));
     }

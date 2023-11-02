@@ -8,9 +8,9 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public abstract class PropertyInfoMapper {
 
-    @Mapping(target = "persons", ignore = true)
+    @Mapping(target = "people", ignore = true)
     public abstract PropertyInfoDTO toDTO(PropertyInfoEntity entity);
 
-    @Mapping(target = "persons", ignore = true)
+    @Mapping(target = "people", ignore = true)
     public abstract PropertyInfoEntity toEntity(PropertyInfoDTO dto);
 }

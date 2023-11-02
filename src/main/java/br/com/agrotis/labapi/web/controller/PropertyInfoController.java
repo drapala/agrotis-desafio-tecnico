@@ -2,7 +2,8 @@ package br.com.agrotis.labapi.web.controller;
 
 import br.com.agrotis.labapi.dto.PropertyInfoDTO;
 import br.com.agrotis.labapi.service.PropertyInfoService;
-import br.com.agrotis.labapi.web.request.PropertyInfoRequest;
+import br.com.agrotis.labapi.web.request.propertyInfo.PropertyInfoCreateRequest;
+import br.com.agrotis.labapi.web.request.propertyInfo.PropertyInfoUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,14 +28,15 @@ public class PropertyInfoController {
     }
 
     @PostMapping
-    public ResponseEntity<PropertyInfoDTO> addPropertyInfo(@RequestBody PropertyInfoRequest propertyInfoRequest) {
-        return ResponseEntity.ok(propertyInfoService.addPropertyInfo(propertyInfoRequest.getPropertyInfoName()));
+    public ResponseEntity<PropertyInfoDTO> addPropertyInfo(@RequestBody PropertyInfoCreateRequest propertyInfoUpdateRequest) {
+        return ResponseEntity.ok(propertyInfoService.addPropertyInfo(propertyInfoUpdateRequest.getName()));
     }
 
-    //TODO - > Refatorar para receber o id como PathVariable
     @PutMapping
-    public ResponseEntity<PropertyInfoDTO> updatePropertyInfo(@RequestBody PropertyInfoRequest propertyInfoRequest) {
-        return ResponseEntity.ok(propertyInfoService.updatePropertyInfo(propertyInfoRequest));
+    public ResponseEntity<PropertyInfoDTO> updatePropertyInfo(
+            @RequestBody PropertyInfoUpdateRequest propertyInfoUpdateRequest
+    ) {
+        return ResponseEntity.ok(propertyInfoService.updatePropertyInfo(propertyInfoUpdateRequest));
     }
 
     @DeleteMapping("/{id}")

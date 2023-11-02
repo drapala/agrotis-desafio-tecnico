@@ -1,9 +1,6 @@
 package br.com.agrotis.labapi.web.advice;
 
-import br.com.agrotis.labapi.exception.LaboratoryAlreadyExistsException;
-import br.com.agrotis.labapi.exception.LaboratoryNotFoundException;
-import br.com.agrotis.labapi.exception.PropertyInfoAlreadyExistsException;
-import br.com.agrotis.labapi.exception.PropertyInfoNotFoundException;
+import br.com.agrotis.labapi.exception.*;
 import br.com.agrotis.labapi.web.response.ExceptionResponse;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
@@ -34,5 +31,15 @@ public class ApiExceptionHandlerAdvice {
     @ExceptionHandler(PropertyInfoNotFoundException.class)
     public ResponseEntity<ExceptionResponse> handlePropertyInfoNotFoundException(final PropertyInfoNotFoundException ex) {
         return new ResponseEntity<>(new ExceptionResponse(404L, "Not found property info with this id"), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(PersonAlreadyExistsException.class)
+    public ResponseEntity<ExceptionResponse> handlePersonAlreadyExistsException(final PersonAlreadyExistsException ex) {
+        return new ResponseEntity<>(new ExceptionResponse(409L, "Already exists person info with this name"), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(PersonNotFoundException.class)
+    public ResponseEntity<ExceptionResponse> handlePersonNotFoundException(final PersonNotFoundException ex) {
+        return new ResponseEntity<>(new ExceptionResponse(404L, "Not found person info with this id"), HttpStatus.NOT_FOUND);
     }
 }

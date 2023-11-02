@@ -8,9 +8,9 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public abstract class LaboratoryMapper {
 
-    @Mapping(target = "persons", ignore = true)
+    @Mapping(target = "people", ignore = true)
     public abstract LaboratoryDTO toDTO(LaboratoryEntity entity);
 
-    @Mapping(target = "persons", ignore = true)
+    @Mapping(target = "people", ignore = true)
     public abstract LaboratoryEntity toEntity(LaboratoryDTO dto);
 }

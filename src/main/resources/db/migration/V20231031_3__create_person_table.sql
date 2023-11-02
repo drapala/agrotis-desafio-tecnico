@@ -3,9 +3,9 @@
     name_person VARCHAR(255) NOT NULL,
     initial_date TIMESTAMP NOT NULL,
     final_date TIMESTAMP NOT NULL,
-    info_property_id BIGINT,
-    laboratory_id BIGINT,
+    id_property_info BIGINT,
+    id_laboratory BIGINT,
     observation TEXT,
-    FOREIGN KEY (info_property_id) REFERENCES property_info(id_property_info),
-    FOREIGN KEY (laboratory_id) REFERENCES laboratory(id_laboratory)
+    FOREIGN KEY (id_property_info) REFERENCES property_info(id_property_info),
+    FOREIGN KEY (id_laboratory) REFERENCES laboratory(id_laboratory)
 );

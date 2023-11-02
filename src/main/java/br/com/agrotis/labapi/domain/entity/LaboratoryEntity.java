@@ -1,28 +1,21 @@
 package br.com.agrotis.labapi.domain.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 import static javax.persistence.GenerationType.IDENTITY;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "laboratory")
 @Entity(name = "Laboratory")
-public class LaboratoryEntity {
+@ToString(exclude = {"id"})
+public class LaboratoryEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -32,6 +25,7 @@ public class LaboratoryEntity {
     @Column(name = "name_laboratory", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "laboratory")
-    private List<PersonEntity> persons;
+    @JsonBackReference
+    @OneToMany(mappedBy = "laboratory", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PersonEntity> people;
 }

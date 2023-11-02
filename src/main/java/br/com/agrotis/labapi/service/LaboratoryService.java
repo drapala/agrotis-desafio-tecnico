@@ -6,7 +6,7 @@ import br.com.agrotis.labapi.dto.LaboratoryDTO;
 import br.com.agrotis.labapi.exception.LaboratoryAlreadyExistsException;
 import br.com.agrotis.labapi.exception.LaboratoryNotFoundException;
 import br.com.agrotis.labapi.mapper.LaboratoryMapper;
-import br.com.agrotis.labapi.web.request.LaboratoryRequest;
+import br.com.agrotis.labapi.web.request.laboratory.LaboratoryUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -48,20 +48,14 @@ public class LaboratoryService {
         return laboratoryMapper.toDTO(savedLaboratory);
     }
 
-    public LaboratoryDTO updateLaboratory(LaboratoryRequest request) {
-
-        // TODO -> Criar exception para parâmetro faltante
-        if (request.getId().isEmpty()) {
-            throw new LaboratoryNotFoundException("Id not provided");
-        }
-
-        Optional<LaboratoryEntity> laboratoryEntity = laboratoryRepository.findById(request.getId().get());
+    public LaboratoryDTO updateLaboratory(LaboratoryUpdateRequest request) {
+        Optional<LaboratoryEntity> laboratoryEntity = laboratoryRepository.findById(request.getId());
 
         if (laboratoryEntity.isEmpty()) {
             throw new LaboratoryNotFoundException("Laboratory not found in database");
         }
 
-        laboratoryEntity.get().setName(request.getLaboratoryName());
+        laboratoryEntity.get().setName(request.getName());
 
         return laboratoryMapper.toDTO(laboratoryRepository.save(laboratoryEntity.get()));
     }

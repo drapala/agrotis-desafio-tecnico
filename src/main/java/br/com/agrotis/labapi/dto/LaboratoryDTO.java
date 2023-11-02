@@ -14,10 +14,9 @@ import java.util.List;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class LaboratoryDTO {
-
     private Long id;
 
     private String name;
 
-    private List<PersonDTO> persons;
+    private List<PersonDTO> people;
 }

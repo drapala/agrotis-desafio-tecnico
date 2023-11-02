@@ -2,7 +2,8 @@ package br.com.agrotis.labapi.web.controller;
 
 import br.com.agrotis.labapi.dto.LaboratoryDTO;
 import br.com.agrotis.labapi.service.LaboratoryService;
-import br.com.agrotis.labapi.web.request.LaboratoryRequest;
+import br.com.agrotis.labapi.web.request.laboratory.LaboratoryCreateRequest;
+import br.com.agrotis.labapi.web.request.laboratory.LaboratoryUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,13 +28,13 @@ public class LaboratoryController {
     }
 
     @PostMapping
-    public ResponseEntity<LaboratoryDTO> addLaboratory(@RequestBody LaboratoryRequest laboratoryRequest) {
-        return ResponseEntity.ok(laboratoryService.addLaboratory(laboratoryRequest.getLaboratoryName()));
+    public ResponseEntity<LaboratoryDTO> addLaboratory(@RequestBody LaboratoryCreateRequest laboratoryCreateRequest) {
+        return ResponseEntity.ok(laboratoryService.addLaboratory(laboratoryCreateRequest.getName()));
     }
 
     @PutMapping
-    public ResponseEntity<LaboratoryDTO> updateLaboratory(@RequestBody LaboratoryRequest laboratoryRequest) {
-        return ResponseEntity.ok(laboratoryService.updateLaboratory(laboratoryRequest));
+    public ResponseEntity<LaboratoryDTO> updateLaboratory(@RequestBody LaboratoryUpdateRequest laboratoryUpdateRequest) {
+        return ResponseEntity.ok(laboratoryService.updateLaboratory(laboratoryUpdateRequest));
     }
 
     @DeleteMapping("/{id}")
