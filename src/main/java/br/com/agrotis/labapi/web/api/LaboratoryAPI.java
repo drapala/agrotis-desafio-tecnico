@@ -5,6 +5,7 @@ import br.com.agrotis.labapi.dto.LaboratoryWithCountDTO;
 import br.com.agrotis.labapi.web.request.laboratory.LaboratoryCreateRequest;
 import br.com.agrotis.labapi.web.request.laboratory.LaboratoryUpdateRequest;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URISyntaxException;
 import java.time.Instant;
 import java.util.List;
 
@@ -23,69 +25,56 @@ public interface LaboratoryAPI {
             path = "/laboratory/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    @Operation(summary = "return laboratory by id")
+    @Operation(summary = "Return laboratory by id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "returned the laboratory successfully"),
-            @ApiResponse(responseCode = "404", description = "laboratory not found in database"),
-            @ApiResponse(responseCode = "400", description = "invalid parameters, check out your request"),
-            @ApiResponse(responseCode = "500", description = "An internal error was thrown")
+            @ApiResponse(responseCode = "200", description = "Returned the laboratory successfully."),
+            @ApiResponse(responseCode = "404", description = "Laboratory not found in database."),
+            @ApiResponse(responseCode = "400", description = "Invalid parameters, check out your request."),
+            @ApiResponse(responseCode = "500", description = "An internal error was thrown.")
     })
     ResponseEntity<LaboratoryDTO> retrieveLaboratoryById(@PathVariable Long id);
 
-    @GetMapping(
-            path = "people/laboratory/{id}",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    @Operation(summary = "return people count by laboratory id")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "returned the list of people successfully"),
-            @ApiResponse(responseCode = "404", description = "could not find the people by this laboratory"),
-            @ApiResponse(responseCode = "400", description = "invalid parameters, check out your request"),
-            @ApiResponse(responseCode = "500", description = "An internal error was thrown")
-    })
-    ResponseEntity<Long> retrievePeopleCount(@PathVariable Long laboratoryId);
-
     @GetMapping("/laboratory")
-    @Operation(summary = "return all laboratories on database")
+    @Operation(summary = "Return all laboratories on database")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "returned all laboratories successfully"),
-            @ApiResponse(responseCode = "500", description = "An internal error was thrown")
+            @ApiResponse(responseCode = "200", description = "Returned all laboratories successfully."),
+            @ApiResponse(responseCode = "500", description = "An internal error was thrown.")
     })
     ResponseEntity<List<LaboratoryDTO>> retrieveAllLaboratories();
 
     @PostMapping("/laboratory")
-    @Operation(summary = "add laboratory")
+    @Operation(summary = "Add laboratory")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "created the laboratory successfully"),
-            @ApiResponse(responseCode = "400", description = "invalid parameters, check out your request"),
-            @ApiResponse(responseCode = "500", description = "An internal error was thrown")
+            @ApiResponse(responseCode = "201", description = "Created the laboratory successfully."),
+            @ApiResponse(responseCode = "400", description = "Invalid parameters, check out your request."),
+            @ApiResponse(responseCode = "500", description = "An internal error was thrown.")
     })
-    ResponseEntity<LaboratoryDTO> addLaboratory(@RequestBody LaboratoryCreateRequest laboratoryCreateRequest);
+    ResponseEntity<LaboratoryDTO> addLaboratory(@RequestBody LaboratoryCreateRequest laboratoryCreateRequest) throws URISyntaxException;
 
     @PutMapping("/laboratory")
-    @Operation(summary = "update the laboratory in database")
+    @Operation(summary = "Update the laboratory in database")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "202", description = "updated the laboratory successfully"),
-            @ApiResponse(responseCode = "400", description = "invalid parameters, check out your request"),
-            @ApiResponse(responseCode = "500", description = "An internal error was thrown")
+            @ApiResponse(responseCode = "202", description = "Updated the laboratory successfully."),
+            @ApiResponse(responseCode = "400", description = "Invalid parameters, check out your request."),
+            @ApiResponse(responseCode = "500", description = "An internal error was thrown.")
     })
     ResponseEntity<LaboratoryDTO> updateLaboratory(@RequestBody LaboratoryUpdateRequest laboratoryUpdateRequest);
 
     @DeleteMapping("/laboratory/{id}")
-    @Operation(summary = "delete the laboratory in database")
+    @Operation(summary = "Delete the laboratory in database")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "deleted the laboratory successfully"),
-            @ApiResponse(responseCode = "400", description = "invalid parameters, check out your request"),
-            @ApiResponse(responseCode = "500", description = "An internal error was thrown")
+            @ApiResponse(responseCode = "204", description = "Deleted the laboratory successfully."),
+            @ApiResponse(responseCode = "400", description = "Invalid parameters, check out your request."),
+            @ApiResponse(responseCode = "500", description = "An internal error was thrown.")
     })
     ResponseEntity<Void> deleteLaboratory(@PathVariable Long id);
 
     @GetMapping("laboratory/filter")
-    @Operation(summary = "retrieve laboratories with filters")
+    @Operation(summary = "Retrieve laboratories with filters")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "returned the laboratories filtered successfully"),
-            @ApiResponse(responseCode = "400", description = "invalid parameters, check out your request"),
-            @ApiResponse(responseCode = "500", description = "An internal error was thrown")
+            @ApiResponse(responseCode = "200", description = "Returned the laboratories filtered successfully."),
+            @ApiResponse(responseCode = "400", description = "Invalid parameters, check out your request."),
+            @ApiResponse(responseCode = "500", description = "An internal error was thrown.")
     })
     ResponseEntity<List<LaboratoryWithCountDTO>> retrieveLaboratoriesWithFilters(
             @RequestParam(name = "initialDateStart", required = false) Instant initialDateStart,
@@ -93,6 +82,7 @@ public interface LaboratoryAPI {
             @RequestParam(name = "finalDateStart", required = false) Instant finalDateStart,
             @RequestParam(name = "finalDateEnd", required = false) Instant finalDateEnd,
             @RequestParam(name = "searchObservation", required = false) String searchObservation,
+            @Schema(description = "order by values", allowableValues = {"peopleCount", "initialDate"}, example = "peopleCount")
             @RequestParam(name = "orderBy", required = false) String orderBy
     );
 }

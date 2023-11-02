@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URISyntaxException;
 import java.util.List;
 
 @Tag(name = "Property-Info")
@@ -21,23 +22,23 @@ public interface PropertyInfoAPI {
             path = "/property-info/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    @Operation(summary = "return property-info by id")
+    @Operation(summary = "Return property-info by id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "returned property-info successfully"),
-            @ApiResponse(responseCode = "404", description = "could not find the property-info  on database"),
-            @ApiResponse(responseCode = "400", description = "invalid parameters, check out your request"),
-            @ApiResponse(responseCode = "500", description = "An internal error was thrown")
+            @ApiResponse(responseCode = "200", description = "Returned property-info successfully."),
+            @ApiResponse(responseCode = "404", description = "Could not find the property-info  on database."),
+            @ApiResponse(responseCode = "400", description = "Invalid parameters, check out your request."),
+            @ApiResponse(responseCode = "500", description = "An internal error was thrown.")
     })
-    ResponseEntity<PropertyInfoDTO> retrieveAllPropertyInfos(@PathVariable final Long id);
+    ResponseEntity<PropertyInfoDTO> retrievePropertyInfosById(@PathVariable final Long id);
 
     @GetMapping(
             path = "/property-info/",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    @Operation(summary = "return all property-info")
+    @Operation(summary = "Return all property-info")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "returned successfully"),
-            @ApiResponse(responseCode = "500", description = "An internal error was thrown")
+            @ApiResponse(responseCode = "200", description = "Returned successfully."),
+            @ApiResponse(responseCode = "500", description = "An internal error was thrown.")
     })
     ResponseEntity<List<PropertyInfoDTO>> retrieveAllPropertyInfos();
 
@@ -45,32 +46,32 @@ public interface PropertyInfoAPI {
             path = "/property-info/",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    @Operation(summary = "add a property-info on database")
+    @Operation(summary = "Add a property-info on database")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "created successfully"),
-            @ApiResponse(responseCode = "400", description = "invalid parameters, check out your request"),
-            @ApiResponse(responseCode = "500", description = "An internal error was thrown")
+            @ApiResponse(responseCode = "201", description = "Created successfully."),
+            @ApiResponse(responseCode = "400", description = "Invalid parameters, check out your request."),
+            @ApiResponse(responseCode = "500", description = "An internal error was thrown.")
     })
-    ResponseEntity<PropertyInfoDTO> addPropertyInfo(@RequestBody final PropertyInfoCreateRequest propertyInfoUpdateRequest);
+    ResponseEntity<PropertyInfoDTO> addPropertyInfo(@RequestBody final PropertyInfoCreateRequest propertyInfoUpdateRequest) throws URISyntaxException;
 
     @PutMapping(path = "/property-info/")
-    @Operation(summary = "update a property-info")
+    @Operation(summary = "Update a property-info")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "202", description = "updated successfully"),
-            @ApiResponse(responseCode = "404", description = "could not find the property-info"),
-            @ApiResponse(responseCode = "400", description = "invalid parameters, check out your request"),
-            @ApiResponse(responseCode = "500", description = "An internal error was thrown")
+            @ApiResponse(responseCode = "200", description = "Updated successfully."),
+            @ApiResponse(responseCode = "404", description = "Could not find the property-info."),
+            @ApiResponse(responseCode = "400", description = "Invalid parameters, check out your request."),
+            @ApiResponse(responseCode = "500", description = "An internal error was thrown.")
     })
     ResponseEntity<PropertyInfoDTO> updatePropertyInfo(
             @RequestBody final PropertyInfoUpdateRequest propertyInfoUpdateRequest
     );
 
     @DeleteMapping(path = "/property-info/{id}")
-    @Operation(summary = "delete a property-info by id")
+    @Operation(summary = "Delete a property-info by id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "deleted successfully"),
-            @ApiResponse(responseCode = "400", description = "invalid parameters, check out your request"),
-            @ApiResponse(responseCode = "500", description = "An internal error was thrown")
+            @ApiResponse(responseCode = "204", description = "Deleted successfully."),
+            @ApiResponse(responseCode = "400", description = "Invalid parameters, check out your request."),
+            @ApiResponse(responseCode = "500", description = "An internal error was thrown.")
     })
     ResponseEntity<Void> deletePropertyInfo(@PathVariable final Long id);
 }

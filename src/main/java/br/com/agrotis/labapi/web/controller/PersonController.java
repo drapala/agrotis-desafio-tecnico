@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.Instant;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
@@ -20,7 +21,6 @@ public class PersonController implements PersonAPI {
     private final PersonService personService;
 
 
-    // TODO -> Mudar as ResponseEntity's para os status code's corretos.
     public ResponseEntity<PersonDTO> retrievePersonById(@PathVariable Long id) {
         return ResponseEntity.ok(personService.retrievePersonById(id));
     }
@@ -29,8 +29,12 @@ public class PersonController implements PersonAPI {
         return ResponseEntity.ok(personService.retrieveAllPeople());
     }
 
-    public ResponseEntity<PersonDTO> addPerson(@RequestBody PersonRequest personRequest) {
-        return ResponseEntity.ok(personService.addPerson(personRequest));
+    public ResponseEntity<PersonDTO> addPerson(@RequestBody PersonRequest personRequest) throws URISyntaxException {
+        PersonDTO createdPerson = personService.addPerson(personRequest);
+
+        String resourceUrl = "/v1/person";
+
+        return ResponseEntity.created(new URI(resourceUrl)).body(createdPerson);
     }
 
     public ResponseEntity<PersonDTO> updatePerson(
@@ -41,18 +45,6 @@ public class PersonController implements PersonAPI {
 
     public ResponseEntity<Void> deletePerson(@PathVariable Long id) {
         personService.deletePerson(id);
-        return ResponseEntity.ok().build();
-    }
-
-    public ResponseEntity<List<PersonDTO>> retrievePeopleByInitialDateRange(Instant startDate, Instant endDate) {
-        return ResponseEntity.ok(personService.retrievePeopleByInitialDateRange(startDate, endDate));
-    }
-
-    public ResponseEntity<List<PersonDTO>> retrievePeopleByFinalDateRange(Instant startDate, Instant endDate) {
-        return ResponseEntity.ok(personService.retrievePeopleByFinalDateRange(startDate, endDate));
-    }
-
-    public ResponseEntity<List<PersonDTO>> retrievePeopleByObservation(String keyword) {
-        return ResponseEntity.ok(personService.retrievePeopleByObservation(keyword));
+        return ResponseEntity.noContent().build();
     }
 }

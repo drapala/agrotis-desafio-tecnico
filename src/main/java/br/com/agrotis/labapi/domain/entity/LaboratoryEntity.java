@@ -1,5 +1,6 @@
 package br.com.agrotis.labapi.domain.entity;
 
+import br.com.agrotis.labapi.domain.listener.LaboratoryEntityListener;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
@@ -15,6 +16,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "laboratory")
 @Entity(name = "Laboratory")
 @ToString(exclude = {"id"})
+@EntityListeners(LaboratoryEntityListener.class)
 public class LaboratoryEntity implements Serializable {
 
     @Id

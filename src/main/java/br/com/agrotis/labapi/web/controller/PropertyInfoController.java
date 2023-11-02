@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
@@ -19,7 +21,7 @@ public class PropertyInfoController implements PropertyInfoAPI {
 
     private final PropertyInfoService propertyInfoService;
 
-    public ResponseEntity<PropertyInfoDTO> retrieveAllPropertyInfos(@PathVariable Long id) {
+    public ResponseEntity<PropertyInfoDTO> retrievePropertyInfosById(@PathVariable Long id) {
         return ResponseEntity.ok(propertyInfoService.retrievePropertyInfoById(id));
     }
 
@@ -27,8 +29,12 @@ public class PropertyInfoController implements PropertyInfoAPI {
         return ResponseEntity.ok(propertyInfoService.retrieveAllPropertiesInfo());
     }
 
-    public ResponseEntity<PropertyInfoDTO> addPropertyInfo(@RequestBody PropertyInfoCreateRequest propertyInfoUpdateRequest) {
-        return ResponseEntity.ok(propertyInfoService.addPropertyInfo(propertyInfoUpdateRequest.getName()));
+    public ResponseEntity<PropertyInfoDTO> addPropertyInfo(@RequestBody PropertyInfoCreateRequest propertyInfoUpdateRequest) throws URISyntaxException {
+        PropertyInfoDTO createdProperty = propertyInfoService.addPropertyInfo(propertyInfoUpdateRequest.getName());
+
+        String resourceUrl = "/v1/person";
+
+        return ResponseEntity.created(new URI(resourceUrl)).body(createdProperty);
     }
 
     public ResponseEntity<PropertyInfoDTO> updatePropertyInfo(
@@ -38,6 +44,6 @@ public class PropertyInfoController implements PropertyInfoAPI {
 
     public ResponseEntity<Void> deletePropertyInfo(@PathVariable Long id) {
         propertyInfoService.deletePropertyInfo(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }

@@ -2,6 +2,7 @@ package br.com.agrotis.labapi.web.controller;
 
 import br.com.agrotis.labapi.dto.LaboratoryDTO;
 import br.com.agrotis.labapi.dto.LaboratoryWithCountDTO;
+import br.com.agrotis.labapi.dto.PersonDTO;
 import br.com.agrotis.labapi.service.LaboratoryService;
 import br.com.agrotis.labapi.web.api.LaboratoryAPI;
 import br.com.agrotis.labapi.web.request.laboratory.LaboratoryCreateRequest;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.Instant;
 import java.util.List;
 
@@ -23,10 +26,6 @@ public class LaboratoryController implements LaboratoryAPI {
 
     public ResponseEntity<LaboratoryDTO> retrieveLaboratoryById(@PathVariable Long id) {
         return ResponseEntity.ok(laboratoryService.retrieveLaboratoryById(id));
-    }
-
-    public ResponseEntity<Long> retrievePeopleCount(Long laboratoryId) {
-        return ResponseEntity.ok(laboratoryService.retrievePeopleCount(laboratoryId));
     }
 
     public ResponseEntity<List<LaboratoryWithCountDTO>> retrieveLaboratoriesWithFilters(
@@ -48,8 +47,12 @@ public class LaboratoryController implements LaboratoryAPI {
         return ResponseEntity.ok(laboratoryService.retrieveAllLaboratories());
     }
 
-    public ResponseEntity<LaboratoryDTO> addLaboratory(@RequestBody LaboratoryCreateRequest laboratoryCreateRequest) {
-        return ResponseEntity.ok(laboratoryService.addLaboratory(laboratoryCreateRequest.getName()));
+    public ResponseEntity<LaboratoryDTO> addLaboratory(@RequestBody LaboratoryCreateRequest laboratoryCreateRequest) throws URISyntaxException {
+        LaboratoryDTO createdLaboratory = laboratoryService.addLaboratory(laboratoryCreateRequest.getName());
+
+        String resourceUrl = "/v1/person";
+
+        return ResponseEntity.created(new URI(resourceUrl)).body(createdLaboratory);
     }
 
     public ResponseEntity<LaboratoryDTO> updateLaboratory(@RequestBody LaboratoryUpdateRequest laboratoryUpdateRequest) {
@@ -58,6 +61,6 @@ public class LaboratoryController implements LaboratoryAPI {
 
     public ResponseEntity<Void> deleteLaboratory(@PathVariable Long id) {
         laboratoryService.deleteLaboratory(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }

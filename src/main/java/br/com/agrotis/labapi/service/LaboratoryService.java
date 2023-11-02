@@ -80,10 +80,6 @@ public class LaboratoryService {
         laboratoryRepository.delete(laboratoryEntity.get());
     }
 
-    public Long retrievePeopleCount(Long laboratoryId) {
-        return laboratoryRepository.countByLaboratory(laboratoryId);
-    }
-
     public List<LaboratoryWithCountDTO> retrieveLaboratoriesWithFilters(
             Instant initialDateStart,
             Instant initialDateEnd,
